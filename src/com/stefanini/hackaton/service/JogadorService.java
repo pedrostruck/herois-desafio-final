@@ -3,6 +3,7 @@ package com.stefanini.hackaton.service;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import com.stefanini.hackaton.dto.JogadorDto;
 import com.stefanini.hackaton.dto.LoginDto;
@@ -34,18 +35,19 @@ public class JogadorService {
 		}
 		// TODO lan�ar exce��o e voltar pra tela de login. nickname e/ou senha
 		// incorreta.
-		System.out.println("Ops! Seu nickname ou senha est�o incorretos!");
+		System.out.println("Ops! Seu nickname ou senha estão incorretos!");
 
 		return true;
 	}
 
+	@Transactional
 	public void createJogador(Jogador jogador) {
 		jogadorDao.insert(jogador);
 	}
 
 	public boolean isIncomplete(Jogador jogador) {
 		if (jogador.getNickname() == null || jogador.getSenha() == null
-				|| jogador.getPersonagem() == null) {
+						|| jogador.getPersonagem() == null) {
 			return true;
 		}
 		return false;

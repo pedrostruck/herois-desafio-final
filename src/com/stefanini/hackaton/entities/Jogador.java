@@ -17,11 +17,11 @@ public class Jogador implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// TODO deve ser �nico
+	// TODO deve ser único
 	@Id
 	private String nickname;
 
-	// TODO deve ter no min. 6 e m�x. 8 char. e deve ser criptografada
+	// TODO deve ter no min. 6 e máx. 8 char. e deve ser criptografada
 	private String senha;
 
 	// TODO somente 1 personagem. armazena Id do Personagem/Heroi

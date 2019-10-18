@@ -138,3 +138,6 @@ fabric.properties
 
 
 /target/
+
+# Dependency directories
+node_modules/

@@ -20,14 +20,14 @@ public class HeroiApi {
 	private HeroiService heroiService;
 
 	@GET
+	@Path("/listAll")
 	public Response listar() {
 		return Response.ok(heroiService.listar()).build();
 	}
 	
 	
-	//TODO problema! Importando entidade "Heroi" tanto na API quanto na Service!
-	@Path("/getHeroi")
 	@GET
+	@Path("/getById")
 	public Heroi getHeroiById(Integer id) {
 		return heroiService.getHeroiById(id);
 	}
