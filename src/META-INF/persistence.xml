@@ -13,8 +13,10 @@
             <!-- As many hibernate properties as you need, some examples: -->
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
+            
             <!-- Drop and then re-create the database schema (don't do this in production) -->
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <!-- <property name="hibernate.hbm2ddl.auto" value="update" /> -->
+            
             <property name="tomee.jpa.factory.lazy" value="true" />
             <property name="transaction.factory_class" value="org.hibernate.transaction.JTATransactionFactory"/>
         </properties>

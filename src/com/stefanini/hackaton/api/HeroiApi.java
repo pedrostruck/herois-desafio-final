@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.stefanini.hackaton.entities.Heroi;
 import com.stefanini.hackaton.service.HeroiService;
 
 @Path("/heroi")
@@ -21,5 +22,13 @@ public class HeroiApi {
 	@GET
 	public Response listar() {
 		return Response.ok(heroiService.listar()).build();
+	}
+	
+	
+	//TODO problema! Importando entidade "Heroi" tanto na API quanto na Service!
+	@Path("/getHeroi")
+	@GET
+	public Heroi getHeroiById(Integer id) {
+		return heroiService.getHeroiById(id);
 	}
 }

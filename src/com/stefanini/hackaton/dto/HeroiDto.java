@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class HeroiDto implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private Integer ataque;
@@ -18,8 +15,6 @@ public class HeroiDto implements Serializable {
 	private Integer velocidade;
 	private Integer forca;
 	private Integer vida;
-
-	
 	
 	public Integer getAtaque() {
 		return ataque;

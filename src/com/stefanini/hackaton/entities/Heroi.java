@@ -10,7 +10,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "heroi")
-@NamedQueries({ @NamedQuery(name = "Heroi.getAll", query = "SELECT h FROM Heroi h") })
+@NamedQueries({
+		@NamedQuery(name = "Heroi.getAll", query = "SELECT h FROM Heroi h") })
 public class Heroi implements Serializable {
 
 	/**
@@ -18,8 +19,8 @@ public class Heroi implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
 	@Id
+	private Integer id;
 	private Integer ataque;
 	private Integer defesa;
 	private Integer inteligencia;

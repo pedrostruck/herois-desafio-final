@@ -27,7 +27,8 @@ public class GenericDAO<P, E extends Serializable> {
 			if ((genericSuperClass instanceof ParameterizedType)) {
 				parametrizedType = (ParameterizedType) genericSuperClass;
 			} else {
-				genericSuperClass = ((Class<?>) genericSuperClass).getGenericSuperclass();
+				genericSuperClass = ((Class<?>) genericSuperClass)
+								.getGenericSuperclass();
 			}
 		}
 

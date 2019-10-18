@@ -9,8 +9,12 @@ import javax.ws.rs.ext.Provider;
 
 @Provider
 public class CorsFilter implements ContainerResponseFilter {
-	public void filter(ContainerRequestContext req, ContainerResponseContext res) throws IOException {
+	public void filter(ContainerRequestContext req,
+			ContainerResponseContext res) throws IOException {
 		res.getHeaders().add("Access-Control-Allow-Origin", "*");
-		res.getHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS, HEAD, PUT, POST");
+		res.getHeaders().add("Access-Control-Allow-Headers",
+				"Content-Type, Authorization, Content-Length, X-Requested-With");
+		res.getHeaders().add("Access-Control-Allow-Methods",
+				"GET,POST,PUT,DELETE,OPTIONS,HEAD");
 	}
 }
