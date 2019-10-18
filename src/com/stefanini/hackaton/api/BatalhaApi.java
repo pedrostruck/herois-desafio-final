@@ -8,13 +8,14 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.stefanini.hackaton.entities.Heroi;
-import com.stefanini.hackaton.entities.Jogador;
 import com.stefanini.hackaton.service.HeroiService;
+import com.stefanini.hackaton.service.JogadorService;
 
 @Path("/batalha")
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,75 +24,76 @@ public class BatalhaApi {
 
 	private final static Random generator = new Random();
 
-	private List<List<String>> finishedBattles = new ArrayList<>();
-	private List<String> currentBattleLog = new ArrayList<>();
+	public List<String> battleLog = new ArrayList<>();
 
 	@Inject
 	private HeroiService heroiService;
 
 	@Inject
-	// TODO injetar o jogador aqui após login
-	private Jogador jogadorLogado;
+	private JogadorService jogadorService;
 
-	@Path("/contra-ia")
+	// @Inject
+	// TODO injetar o jogador aqui apï¿½s login
+	// private Jogador jogadorLogado;
+
 	@GET
-	public Response batalharContraIA() {
+	@Path("/contra-ia/{personagem}")
+	public Response batalharContraIA(
+					@PathParam("personagem") Integer personagem) {
 		// TODO como acessar dados do jogador logado?
-		Heroi heroiDoJogador = heroiService
-				.getHeroiById(jogadorLogado.getPersonagem());
-		// TODO parametrizar o minId e maxId
+		Heroi heroiDoJogador = heroiService.getHeroiById(personagem);
 		Heroi oponente = heroiService
-				.getHeroiById(getRandomIntegerInRange(1, 249));
-
-		// TODO tratar caso de batalhas entre heróis com id igual
-		Heroi vitorioso = evaluateBattle(heroiDoJogador, oponente);
-		System.out.println(vitorioso == null ? currentBattleLog.add("Empate")
-				: currentBattleLog
-						.add("O vitorioso foi " + vitorioso.getNome() + "!"));
-		finishedBattles.add(currentBattleLog);
-		currentBattleLog.clear();
-		return Response.ok().build();
+						.getHeroiById(getRandomIntegerInRange(1, 249));
+		return Response.ok(evaluateBattle(heroiDoJogador, oponente)).build();
 	}
 
-	private Heroi evaluateBattle(Heroi heroiDoJogador, Heroi oponente) {
-		currentBattleLog.add("Batalha entre " + heroiDoJogador.getNome() + " e "
-				+ oponente.getNome() + ".");
+	@GET
+	@Path("/contra-jogador/{nickJogador}/{nickOponente}")
+	public Response batalharContraJogador(
+					@PathParam("nickJogador") String nickJogador,
+					@PathParam("nickOponente") String nickOponente) {
+		Heroi heroiDoJogador = heroiService.getHeroiById(jogadorService
+						.getJogadorByNickname(nickJogador).getPersonagem());
+		Heroi oponente = heroiService.getHeroiById(jogadorService
+						.getJogadorByNickname(nickOponente).getPersonagem());
+		return Response.ok(evaluateBattle(heroiDoJogador, oponente)).build();
+	}
+
+	private List<String> evaluateBattle(Heroi heroiDoJogador, Heroi oponente) {
+		battleLog.add("*** Batalha entre " + heroiDoJogador.getNome() + " e "
+						+ oponente.getNome() + " ***");
 		if (isDraw(heroiDoJogador, oponente)) {
-			currentBattleLog.add(heroiDoJogador.getNome() + " e "
-					+ oponente.getNome() + " empataram!");
+			battleLog.add(heroiDoJogador.getNome() + " e " + oponente.getNome()
+							+ " EMPATARAM!");
 		} else {
 			while (isHeroesAlive(heroiDoJogador, oponente)) {
 				Integer damageHeroiJogador = getDamage(heroiDoJogador,
-						oponente);
+								oponente);
 				Integer damageOpponent = getDamage(oponente, heroiDoJogador);
 				applyDamage(oponente, damageHeroiJogador);
 				applyDamage(heroiDoJogador, damageOpponent);
-				currentBattleLog.add(heroiDoJogador.getNome()
-						+ " dá um golpe de " + damageHeroiJogador
-						+ " de dano no " + oponente.getNome());
-				currentBattleLog.add(
-						oponente.getNome() + " dá um golpe de " + damageOpponent
-								+ " de dano no " + heroiDoJogador.getNome());
-				currentBattleLog.add("Vida: ");
-				currentBattleLog.add(heroiDoJogador.getNome() + ":["
-						+ heroiDoJogador.getVida() + "], " + oponente.getNome()
-						+ ":[" + oponente.getVida() + "]\n");
+				battleLog.add(heroiDoJogador.getNome() + " golpeia "
+								+ damageHeroiJogador + " de dano");
+				battleLog.add(oponente.getNome() + " golpeia " + damageOpponent
+								+ " de dano");
+				battleLog.add("Vidas: " + heroiDoJogador.getNome() + ":["
+								+ heroiDoJogador.getVida() + "], "
+								+ oponente.getNome() + ":[" + oponente.getVida()
+								+ "]");
+				battleLog.add("");
 			}
-			return (heroiDoJogador.getVida() > oponente.getVida())
-					? heroiDoJogador
-					: oponente;
+
+			battleLog.add("*** O vitorioso foi "
+							+ (heroiDoJogador.getVida() > oponente.getVida()
+											? heroiDoJogador.getNome()
+											: oponente.getNome())
+							+ "! ***");
 		}
-		return null;
+		return battleLog;
 	}
 
 	private void applyDamage(Heroi heroi, Integer damage) {
 		heroi.setVida(heroi.getVida() - damage);
-	}
-
-	@Path("/contra-jogador")
-	@GET
-	public Response batalharContraJogador() {
-		return Response.ok().build();
 	}
 
 	private boolean isHeroesAlive(Heroi heroiDoJogador, Heroi oponente) {
@@ -103,7 +105,7 @@ public class BatalhaApi {
 
 	private boolean isDraw(Heroi heroiDoJogador, Heroi oponente) {
 		if ((getDamage(heroiDoJogador, oponente)
-				.equals(getDamage(oponente, heroiDoJogador)))) {
+						.equals(getDamage(oponente, heroiDoJogador)))) {
 			return true;
 		}
 		return false;
@@ -111,10 +113,10 @@ public class BatalhaApi {
 
 	private Integer getDamage(Heroi attacker, Heroi defender) {
 		Integer attack = (attacker.getAtaque() + 100)
-				* (attacker.getForca() + 100)
-				* (attacker.getVelocidade() + 100);
+						* (attacker.getForca() + 100)
+						* (attacker.getVelocidade() + 100);
 		Integer defense = (defender.getPoder() + 10)
-				* (defender.getDefesa() * 10);
+						* (defender.getDefesa() + 10);
 		return attack - defense;
 	}
 

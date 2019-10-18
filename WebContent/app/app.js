@@ -1,1 +1,1 @@
-angular.module("heroiApp", ["ngMessages"]);
+angular.module("heroiApp", ["ngMessages",  "ngRoute"]);

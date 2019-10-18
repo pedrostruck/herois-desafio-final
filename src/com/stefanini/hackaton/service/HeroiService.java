@@ -17,8 +17,6 @@ public class HeroiService {
 	@Inject
 	HeroiDAO heroiDao;
 	
-	// TODO adicionar tags Transactional
-	
 	public List<HeroiDto> listar() {
 		return parser.toDTO(heroiDao.list());
 	}

@@ -1,5 +1,6 @@
 package com.stefanini.hackaton.service;
 
+import java.util.Base64;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,6 +11,7 @@ import com.stefanini.hackaton.dto.LoginDto;
 import com.stefanini.hackaton.entities.Jogador;
 import com.stefanini.hackaton.parsers.JogadorParserDTO;
 import com.stefanini.hackaton.persistence.JogadorDAO;
+import com.stefanini.hackaton.rest.exceptions.NegocioException;
 
 //TODO adicionar tags Transactional nos métodos
 
@@ -19,30 +21,36 @@ public class JogadorService {
 	private JogadorParserDTO parser;
 
 	@Inject
-	private JogadorDAO jogadorDao;
+	private JogadorDAO dao;
 
 	public List<JogadorDto> listar() {
-		return parser.toDTO(jogadorDao.list());
+		return parser.toDTO(dao.list());
 	}
 
-	public boolean efetuarLogin(LoginDto loginDto) {
-		Jogador j = jogadorDao.findById(loginDto.getNickname());
-		if (j != null) {
-			// TODO jogador existe. verificar senha correta
-			if (j.getSenha() == loginDto.getSenha()) {
+	public boolean efetuarLogin(LoginDto loginDto) throws NegocioException {
+		Jogador jogador = dao.findById(loginDto.getNickname());
+		if (jogador != null) {
+			byte[] decodedPasswordBytes = Base64.getDecoder()
+							.decode(loginDto.getSenha());
+			String decodedPassword = new String(decodedPasswordBytes);
+//			String encoded = Base64.getEncoder()
+//							.encodeToString(original.getBytes());
+			if (jogador.getSenha() == decodedPassword) {
 				// TODO logar jogador e redirecionar pra home
+				return true;
 			}
 		}
-		// TODO lan�ar exce��o e voltar pra tela de login. nickname e/ou senha
-		// incorreta.
-		System.out.println("Ops! Seu nickname ou senha estão incorretos!");
+		throw new NegocioException(
+						"Ops! Seu nickname ou senha estão incorretos!");
+	}
 
-		return true;
+	public Jogador getJogadorByNickname(String nickname) {
+		return dao.findById(nickname);
 	}
 
 	@Transactional
 	public void createJogador(Jogador jogador) {
-		jogadorDao.insert(jogador);
+		dao.insert(jogador);
 	}
 
 	public boolean isIncomplete(Jogador jogador) {
@@ -54,7 +62,7 @@ public class JogadorService {
 	}
 
 	public boolean isDuplicateNickname(String nickname) {
-		if (jogadorDao.findById(nickname) != null) {
+		if (dao.findById(nickname) != null) {
 			return true;
 		}
 		return false;
