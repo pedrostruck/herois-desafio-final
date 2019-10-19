@@ -47,18 +47,22 @@ public class BatalhaApi {
 		return Response.ok(evaluateBattle(heroiDoJogador, oponente)).build();
 	}
 
-	@GET
-	@Path("/contra-jogador/{nickJogador}/{nickOponente}")
-	public Response batalharContraJogador(
-					@PathParam("nickJogador") String nickJogador,
-					@PathParam("nickOponente") String nickOponente) {
-		Heroi heroiDoJogador = heroiService.getHeroiById(jogadorService
-						.getJogadorByNickname(nickJogador).getPersonagem());
-		Heroi oponente = heroiService.getHeroiById(jogadorService
-						.getJogadorByNickname(nickOponente).getPersonagem());
-		return Response.ok(evaluateBattle(heroiDoJogador, oponente)).build();
-	}
-
+	/*
+	 * @GET
+	 * 
+	 * @Path("/contra-jogador/{nickJogador}/{nickOponente}") public Response
+	 * batalharContraJogador(
+	 * 
+	 * @PathParam("nickJogador") String nickJogador,
+	 * 
+	 * @PathParam("nickOponente") String nickOponente) { // TODO mudar de
+	 * integer pra Objeto HEROI Heroi heroiDoJogador =
+	 * heroiService.getHeroiById(jogadorService
+	 * .getJogadorByNickname(nickJogador).getHeroi()); Heroi oponente =
+	 * heroiService.getHeroiById(jogadorService
+	 * .getJogadorByNickname(nickOponente).getPersonagem()); return
+	 * Response.ok(evaluateBattle(heroiDoJogador, oponente)).build(); }
+	 */
 	private List<String> evaluateBattle(Heroi heroiDoJogador, Heroi oponente) {
 		battleLog.add("*** Batalha entre " + heroiDoJogador.getNome() + " e "
 						+ oponente.getNome() + " ***");

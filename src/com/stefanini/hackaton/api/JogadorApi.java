@@ -46,6 +46,7 @@ public class JogadorApi {
 	@POST
 	@Path("/login")
 	public Response login(LoginDto loginDto) throws NegocioException {
+		System.out.println("Dentro de login.");
 		if (jogadorService.efetuarLogin(loginDto)) {
 			// TODO redirecionamento de p�ginas e lan�amento de exce��o
 		}

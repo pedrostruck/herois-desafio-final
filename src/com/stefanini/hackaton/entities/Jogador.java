@@ -2,31 +2,32 @@ package com.stefanini.hackaton.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "jogador")
-@NamedQueries({
-		@NamedQuery(name = "Jogador.getAll", query = "SELECT j FROM Jogador j") })
+@NamedQueries({ @NamedQuery(
+	name = "Jogador.getAll",
+	query = "SELECT j FROM Jogador j") })
 public class Jogador implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// TODO deve ser único
 	@Id
 	private String nickname;
 
-	// TODO deve ter no min. 6 e máx. 8 char. e deve ser criptografada
 	private String senha;
 
-	// TODO somente 1 personagem. armazena Id do Personagem/Heroi
-	@Column(name = "idHeroi")
-	private Integer personagem;
+	// TODO pegar id ou trazer o personagem como objeto?
+	@OneToOne
+	@JoinColumn(name = "idHeroi")
+	private Heroi heroi;
 
 	public String getNickname() {
 		return nickname;
@@ -44,12 +45,12 @@ public class Jogador implements Serializable {
 		this.senha = senha;
 	}
 
-	public Integer getPersonagem() {
-		return personagem;
+	public Heroi getHeroi() {
+		return heroi;
 	}
 
-	public void setPersonagem(Integer personagem) {
-		this.personagem = personagem;
+	public void setHeroi(Heroi heroi) {
+		this.heroi = heroi;
 	}
 
 }

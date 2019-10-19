@@ -55,7 +55,7 @@ public class JogadorService {
 
 	public boolean isIncomplete(Jogador jogador) {
 		if (jogador.getNickname() == null || jogador.getSenha() == null
-						|| jogador.getPersonagem() == null) {
+						|| jogador.getHeroi() == null) {
 			return true;
 		}
 		return false;
