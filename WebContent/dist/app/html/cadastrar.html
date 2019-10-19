@@ -1,0 +1,34 @@
+<div class="jumbotron" ng-init="vm.init()">
+	<h3>{{vm.app}} - Cadastro</h3>
+	{{vm.message}}
+	<hr />
+	<div>
+		<form ng-controller="jogadorCtrl as jogCtrl" ng-submit="jogCtrl.cadastrar(jogCtrl.jogador)">
+			<div class="form-group">
+				<label>Nickname</label>
+				<input type="texto" ng-required="true" class="form-control" placeholder="ex: alice123" ng-model="jogCtrl.jogador.nickname" />
+			</div>
+			<div class="form-group">
+				<label>Senha</label>
+				<input type="password" ng-required="true" class="form-control"   ng-model="jogCtrl.jogador.senha" ng-minlength="6"
+				ng-maxlenght="8" />
+			</div>
+			<div class="form-group">
+				<label>Herói</label>
+				<select name="heroi" id="heroi" class="form-control" ng-required="true"
+					ng-options="heroi as heroi.nome for heroi in vm.herois" ng-model="jogCtrl.jogador.heroi"></select>
+				<div ng-if="jogCtrl.jogador.heroi">
+					<span>Vida: {{jogCtrl.jogador.heroi.vida}}</span><br>
+					<span>Ataque: {{jogCtrl.jogador.heroi.ataque}}</span><br>
+					<span>Forca: {{jogCtrl.jogador.heroi.forca}}</span><br>
+					<span>Inteligencia: {{jogCtrl.jogador.heroi.inteligencia}}</span><br>
+					<span>Defesa: {{jogCtrl.jogador.heroi.defesa}}</span><br>
+					<span>Velocidade: {{jogCtrl.jogador.heroi.velocidade}}</span><br>
+					<span>Poder: {{jogCtrl.jogador.heroi.poder}}</span><br>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-success">Cadastrar</button>
+			<button ng-click="vm.irLogin('/')" class="btn btn-primary">Voltar</button>
+		</form>
+	</div>
+</div>

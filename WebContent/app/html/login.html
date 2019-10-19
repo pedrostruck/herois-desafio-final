@@ -1,0 +1,20 @@
+<div class="jumbotron">
+	<h3>Login</h3>
+	<hr />
+	<div>
+		<form ng-submit="vm.login(vm.jogador)">
+			<div class="form-group">
+				<label>Nickname</label>
+				<input type="texto" class="form-control" ng-model="vm.jogador.nickname" />
+			</div>
+			<div class="form-group">
+				<label>Senha</label>
+				<input type="password" class="form-control" ng-model="vm.jogador.senha" minlength="6" maxlength="8" />
+			</div>
+			<button type="submit" class="btn btn-success">Entrar</button>
+			<button class="btn btn-primary" ng-click="vm.irTela('/cadastrar')">Cadastrar</button>
+		</form>
+	</div>
+	
+
+</div>

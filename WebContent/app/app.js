@@ -1,1 +1,0 @@
-angular.module("heroiApp", ["ngMessages",  "ngRoute"]);

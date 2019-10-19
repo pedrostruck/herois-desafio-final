@@ -1,0 +1,59 @@
+<div class="row justify-content-md-center m-top-10">
+    <div title="Jogador Principal">
+        <h2> {{vm.jogador.nickname}} </h2>
+    </div>
+    <div>
+        <div class="jumbotron">
+            <hr />
+            <div ng-if="vm.telaVsJogador">
+                    <div class="col-sm-12 text-center">
+                            <h3>BATALHA VS JOGADOR</h3>
+                        </div>
+                <form ng-submit="vm.batalharVsJogador(vm.jogador2)">
+                    <div class="form-group">
+                        <label>Jogador 2</label>
+                        <input type="texto" class="form-control" placeholder="SuperFulano012" 
+                        ng-required="true" ng-model="vm.jogador2.nickname">
+                    </div>
+                    <div class="form-group"
+                    ng-controller="heroiCtrl as vm" ng-init="vm.init()"
+                    >
+                        <label>Heroi</label>
+                        <select name="heroi" id="heroi" class="form-control"
+                            ng-required="true"
+                            ng-options="heroi as heroi.nome for heroi in vm.herois" ng-model="vm.jogador2.heroi"></select>
+                            <div ng-if="vm.jogador2.heroi">
+                                    <span>Vida:{{vm.user.heroi.vida}}</span><br>
+                                    <span>Ataque:{{vm.user.heroi.ataque}}</span><br>
+                                    <span>Forca:{{vm.user.heroi.forca}}</span><br>
+                                    <span>Inteligencia:{{vm.user.heroi.inteligencia}}</span><br>
+                                    <span>Defesa:{{vm.user.heroi.defesa}}</span><br>
+                                    <span>Velocidade:{{vm.user.heroi.velocidade}}</span><br>
+                                    <span>Poder:{{vm.user.heroi.poder}}</span><br>
+                                </div>
+                    </div>
+                    <button type="submit" class="btn btn-success">Jogar</button>
+                </form>
+                <button class="btn btn-primary" ng-click="vm.irTelaVsComputador()">Batalhar Vs Computador</button>
+            </div>
+            <div ng-if="vm.telaVsComputador">
+                <form>
+                    <table class="table table-condensed table-stripped table-hover table-bordered"></table>
+                    <thead>
+                        <tr>
+                        <th>Mensagem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="msg in batalhaCtrl.log track by $index">
+                            <th> {{msg}}</th>
+                        </tr>
+
+                    </tbody>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

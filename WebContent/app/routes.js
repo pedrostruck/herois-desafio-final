@@ -5,13 +5,16 @@ Config.$inject = ["$routeProvider"];
 function Config($routeProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "app/home/home.html"
+            templateUrl: "app/html/login.html",
+            controller: "jogadorCtrl as vm"
         })
-        .when("/cadastro", {
-            templateUrl: "app/cadastro/cadastro.html"
+        .when("/cadastrar", {
+            templateUrl: "app/html/cadastrar.html",
+            controller: "heroiCtrl as vm"
         })
-        .when("/home", {
-            templateUrl: "app/home/home.html"
+        .when("/batalha",{
+            templateUrl: "app/html/batalha.html",
+            controller: "batalhaCtrl as vm"
         })
         .otherwise({
             redirectTo: "/"
