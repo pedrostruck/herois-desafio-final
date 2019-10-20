@@ -9,14 +9,13 @@
                 <div class="col-sm-12 text-center">
                     <h3>Batalhe contra um jogador cadastrado!</h3>
                 </div>
-                <!-- TODO MUDAR A CHAMADA DA BATALHA CONTRA JOGADOR-->
-                <form ng-submit="vm.batalharVsJogador(vm.jogador2)">
+                <form ng-submit="vm.batalhar(vm.jogador.nickname,vm.jogador2.nickname)">
                     <div class="form-group">
                         <label>Oponente</label>
                         <select name="oponente" id="oponente" class="form-control" ng-options="oponente as oponente.nickname for oponente in vm.jogadores" ng-model="vm.jogador2"></select>
                     </div>
                     <div class="form-group">
-                        <p>Heroi do oponente</p>
+                        <p class="negrito">Heroi do oponente</p>
                         <div ng-if="vm.jogador2.personagem">
                             <span>Nome: {{vm.jogador2.personagem.nome}}</span><br>
                             <span>Vida: {{vm.jogador2.personagem.vida}}</span><br>
@@ -30,6 +29,18 @@
                     </div>
                     <button type="submit" class="btn btn-success">Batalhar!</button>
                     <button class="btn btn-primary" ng-click="vm.irTelaVsComputador()">Batalhar contra a máquina</button>
+                    <table ng-if="vm.acabouBatalha" class="table table-condensed table-stripped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="negrito">Log da Batalha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="msg in vm.log track by $index">
+                                <td>{{msg}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </form>
             </div>
             <div ng-if="vm.telaVsComputador">
@@ -39,9 +50,6 @@
                     <button class="btn btn-primary" ng-click="vm.irTelaVsJogador()">Voltar</button>
                     <table ng-if="vm.acabouBatalha" class="table table-condensed table-stripped table-hover table-bordered">
                         <thead>
-                            <tr>
-                                <th class="negrito">({{vm.jogador.nickname}}) {{vm.jogador.personagem.nome}} VS heroi_op (nome_oponente) </th>
-                            </tr>
                             <tr>
                                 <th class="negrito">Log da Batalha</th>
                             </tr>

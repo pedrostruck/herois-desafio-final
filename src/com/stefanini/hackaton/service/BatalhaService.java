@@ -56,15 +56,16 @@ public class BatalhaService {
 								+ heroJog.getVida() + "], " + heroOp.getNome()
 								+ ":[" + heroOp.getVida() + "]");
 			}
-			battleLog.add("*** O vitorioso foi "
+			battleLog.add("|--- FIM DA BATALHA ---|");
+			battleLog.add("***** VITÓRIA DE "
 							+ (heroJog.getVida() > heroOp.getVida()
 											? "(" + jogLogado.getNickname()
-															+ ") "
+															+ ") com o herói "
 															+ heroJog.getNome()
 											: "(" + jogOponente.getNickname()
-															+ ") "
+															+ ") com o herói "
 															+ heroOp.getNome())
-							+ "! ***");
+							+ "! *****");
 		}
 		return battleLog;
 	}
