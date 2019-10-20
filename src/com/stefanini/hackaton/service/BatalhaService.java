@@ -2,41 +2,68 @@ package com.stefanini.hackaton.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import javax.inject.Inject;
 
 import com.stefanini.hackaton.entities.Heroi;
+import com.stefanini.hackaton.entities.Jogador;
+import com.stefanini.hackaton.persistence.HeroiDAO;
+import com.stefanini.hackaton.persistence.JogadorDAO;
 
 public class BatalhaService {
 
+	private final static Random generator = new Random();
+
+	@Inject
+	private JogadorDAO jogadorDao;
+
+	@Inject
+	private HeroiDAO heroiDao;
+
 	public List<String> battleLog = new ArrayList<>();
 
-	public List<String> evaluateBattle(Heroi heroiDoJogador, Heroi oponente) {
-		battleLog.add("*** Batalha entre " + heroiDoJogador.getNome() + " e "
-						+ oponente.getNome() + " ***");
-		if (isDraw(heroiDoJogador, oponente)) {
-			battleLog.add(heroiDoJogador.getNome() + " e " + oponente.getNome()
-							+ " EMPATARAM!");
+	public List<String> evaluateBattle(String nickJogador,
+					String nickOponente) {
+		Jogador jogLogado = jogadorDao.getByNickname(nickJogador).get(0);
+		Jogador jogOponente = null;
+		if (nickOponente == null) {
+			jogOponente = new Jogador(
+							"Máquina",
+								heroiDao.findById(getRandomIntegerInRange(1,
+												249)));
 		} else {
-			while (isBothHeroesAlive(heroiDoJogador, oponente)) {
-				Integer damageHeroiJogador = getDamage(heroiDoJogador,
-								oponente);
-				Integer damageOpponent = getDamage(oponente, heroiDoJogador);
-				applyDamage(oponente, damageHeroiJogador);
-				applyDamage(heroiDoJogador, damageOpponent);
-				battleLog.add(heroiDoJogador.getNome() + " golpeia "
-								+ damageHeroiJogador + " de dano");
-				battleLog.add(oponente.getNome() + " golpeia " + damageOpponent
-								+ " de dano");
-				battleLog.add("Vidas: " + heroiDoJogador.getNome() + ":["
-								+ heroiDoJogador.getVida() + "], "
-								+ oponente.getNome() + ":[" + oponente.getVida()
-								+ "]");
-				battleLog.add("");
-			}
+			jogOponente = jogadorDao.getByNickname(nickOponente).get(0);
+		}
+		Heroi heroJog = jogLogado.getPersonagem();
+		Heroi heroOp = jogOponente.getPersonagem();
 
+		if (isDraw(heroJog, heroOp)) {
+			battleLog.add("EMPATE!");
+		} else {
+			int i = 0;
+			while (isBothHeroesAlive(heroJog, heroOp)) {
+				battleLog.add("|--- Turno " + ++i + " ---|");
+				Integer damageJog = getDamage(heroJog, heroOp);
+				Integer damageOpponent = getDamage(heroOp, heroJog);
+				applyDamage(heroOp, damageJog);
+				applyDamage(heroJog, damageOpponent);
+				battleLog.add(heroJog.getNome() + " golpeia " + damageJog
+								+ " de dano");
+				battleLog.add(heroOp.getNome() + " golpeia " + damageOpponent
+								+ " de dano");
+				battleLog.add("Vidas: " + heroJog.getNome() + ":["
+								+ heroJog.getVida() + "], " + heroOp.getNome()
+								+ ":[" + heroOp.getVida() + "]");
+			}
 			battleLog.add("*** O vitorioso foi "
-							+ (heroiDoJogador.getVida() > oponente.getVida()
-											? heroiDoJogador.getNome()
-											: oponente.getNome())
+							+ (heroJog.getVida() > heroOp.getVida()
+											? "(" + jogLogado.getNickname()
+															+ ") "
+															+ heroJog.getNome()
+											: "(" + jogOponente.getNickname()
+															+ ") "
+															+ heroOp.getNome())
 							+ "! ***");
 		}
 		return battleLog;
@@ -68,6 +95,10 @@ public class BatalhaService {
 		Integer defense = (defender.getPoder() + 10)
 						* (defender.getDefesa() + 10);
 		return attack - defense;
+	}
+
+	private static Integer getRandomIntegerInRange(Integer min, Integer max) {
+		return generator.nextInt((max - min) + 1) + min;
 	}
 
 }

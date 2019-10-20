@@ -9,6 +9,7 @@
                 <div class="col-sm-12 text-center">
                     <h3>Batalhe contra um jogador cadastrado!</h3>
                 </div>
+                <!-- TODO MUDAR A CHAMADA DA BATALHA CONTRA JOGADOR-->
                 <form ng-submit="vm.batalharVsJogador(vm.jogador2)">
                     <div class="form-group">
                         <label>Oponente</label>
@@ -17,13 +18,14 @@
                     <div class="form-group">
                         <p>Heroi do oponente</p>
                         <div ng-if="vm.jogador2.personagem">
+                            <span>Nome: {{vm.jogador2.personagem.nome}}</span><br>
                             <span>Vida: {{vm.jogador2.personagem.vida}}</span><br>
                             <span>Ataque: {{vm.jogador2.personagem.ataque}}</span><br>
-                            <span>Forca: {{vm.jogador2.personagem.forca}}</span><br>
-                            <span>Inteligencia:{{vm.jogador2.personagem.inteligencia}}</span><br>
                             <span>Defesa: {{vm.jogador2.personagem.defesa}}</span><br>
-                            <span>Velocidade:{{vm.jogador2.personagem.velocidade}}</span><br>
+                            <span>Inteligência: {{vm.jogador2.personagem.inteligencia}}</span><br>
                             <span>Poder: {{vm.jogador2.personagem.poder}}</span><br>
+                            <span>Velocidade: {{vm.jogador2.personagem.velocidade}}</span><br>
+                            <span>Força: {{vm.jogador2.personagem.forca}}</span><br>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success">Batalhar!</button>
@@ -31,20 +33,25 @@
                 </form>
             </div>
             <div ng-if="vm.telaVsComputador">
-                <form>
-                    <table class="table table-condensed table-stripped table-hover table-bordered"></table>
-                    <thead>
-                        <tr>
-                        <th>Mensagem</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="msg in batalhaCtrl.log track by $index">
-                            <th> {{msg}}</th>
-                        </tr>
-
-                    </tbody>
-                    
+                <!-- Lógica: Se null é enviado como o nickname do oponente, a batalha é contra a Máquina -->
+                <form ng-submit="vm.batalhar(vm.jogador.nickname, null)">
+                    <button type="submit" class="btn btn-success">Iniciar Batalha!</button>
+                    <button class="btn btn-primary" ng-click="vm.irTelaVsJogador()">Voltar</button>
+                    <table ng-if="vm.acabouBatalha" class="table table-condensed table-stripped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="negrito">({{vm.jogador.nickname}}) {{vm.jogador.personagem.nome}} VS heroi_op (nome_oponente) </th>
+                            </tr>
+                            <tr>
+                                <th class="negrito">Log da Batalha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="msg in vm.log track by $index">
+                                <td>{{msg}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </form>
             </div>
         </div>

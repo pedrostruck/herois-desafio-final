@@ -28,6 +28,15 @@ public class Jogador implements Serializable {
 	@JoinColumn(name = "idHeroi")
 	private Heroi personagem;
 
+	public Jogador() {
+
+	}
+
+	public Jogador(String nickname, Heroi personagem) {
+		this.nickname = nickname;
+		this.personagem = personagem;
+	}
+
 	public String getNickname() {
 		return nickname;
 	}
