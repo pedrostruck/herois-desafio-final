@@ -3,15 +3,13 @@ moduleApp.factory("jogadorService", function ($http) {
 	const cadstrarUrl = 'http://localhost:8080/curso-hackaton-cdi/jogador/cadastrar';
     const loginUrl = 'http://localhost:8080/curso-hackaton-cdi/jogador/login';
     
-    const self = this;
-    
-    this.jogador = {
+    var _jogador = {
         nickname: null,
         senha: null,
         personagem: {}
     };
 
-    this.dadosLogin = {
+    var _dadosLogin = {
         nickname: null,
         senha: null
     };
@@ -26,6 +24,8 @@ moduleApp.factory("jogadorService", function ($http) {
 
 	return {
         inserirJogador: _inserirJogador,
-        login: _login
-	};	
+        login: _login,
+        jogador: _jogador,
+        dadosLogin: _dadosLogin
+    };
 });

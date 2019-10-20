@@ -25,7 +25,6 @@ public class HeroiApi {
 		return Response.ok(heroiService.listar()).build();
 	}
 	
-	
 	@GET
 	@Path("/getById")
 	public Heroi getHeroiById(Integer id) {

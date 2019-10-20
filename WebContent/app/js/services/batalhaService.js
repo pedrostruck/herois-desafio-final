@@ -4,17 +4,17 @@ moduleApp.factory("batalhaService", function ($http) {
 
 	const getOponentesUrl = 'http://localhost:8080/curso-hackaton-cdi/batalha/getOponentes';
 
-	const _batalharVsJogador = function (jogador,jogador2) {
-		return $http.post(baseUrl,jogador,jogador2);
+	const _batalharVsJogador = function (jogador, jogador2) {
+		return $http.post(baseUrl, jogador, jogador2);
 	};
 
-	const _getJogadoresOponentes = function() {
-		return $http.get(getOponentesUrl);
+	const _getOponentes = function(jogadorLogado) {
+		return $http.post(getOponentesUrl, jogadorLogado);
 	};
 
 	return {
 		batalharVsJogador: _batalharVsJogador,
-		getJogadoresOponentes: _getJogadoresOponentes
+		getOponentes: _getOponentes
 	};
 
 });

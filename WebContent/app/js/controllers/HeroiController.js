@@ -9,7 +9,7 @@ function HeroiController($scope, heroisService, $location) {
 	vm.service = heroisService;
 	vm.herois = [];
 
-	vm.init = function(){
+	vm.init = function() {
 		vm.login = true;
 		vm.carregarHerois();
 	}

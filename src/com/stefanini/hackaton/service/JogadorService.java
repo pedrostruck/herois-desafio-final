@@ -29,6 +29,10 @@ public class JogadorService {
 		return parser.toDTO(dao.list());
 	}
 
+	public List<JogadorDTO> getListaOponentes(JogadorDTO jogadorLogado) {
+		return parser.toDTO(dao.getOponentes(jogadorLogado.getNickname()));
+	}
+
 	public JogadorDTO getJogadorByNickname(String nickname) {
 		return parser.toDTO(dao.findById(nickname));
 	}

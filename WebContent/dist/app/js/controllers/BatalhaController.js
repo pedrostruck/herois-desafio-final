@@ -7,23 +7,24 @@ function BatalhaController($scope, $location, batalhaService, jogadorService) {
 	const vm = this;
 
 	vm.telaVsJogador = true;
-
+	vm.batalhaService = batalhaService;
 	vm.jogadores = [];
-
-	vm.jogador = jogadorService.jogador;
-	
 	vm.jogador2 = {
 		nickname: null,
 		personagem: {}
 	};
-
 	vm.vencedor = {
 		nickname: null,
 		personagem: {}
 	};
+	
+	vm.init = function() {
+		vm.jogador = jogadorService.jogador;
+		vm.carregarJogadoresOponentes(vm.jogador);
+	}
 
-	vm.carregarJogadoresOponentes = function () {
-		vm.service.getHerois().success(function (data) {
+	vm.carregarJogadoresOponentes = function (jogadorLogado) {
+		vm.batalhaService.getOponentes(jogadorLogado).success(function (data) {
 			vm.jogadores = data;
 		}).error(function (data, status) {
 			vm.message = "Aconteceu um problema: " + data;

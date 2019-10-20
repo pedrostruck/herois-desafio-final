@@ -1,43 +1,34 @@
 <!-- BatalhaController as vm -->
-<div class="row justify-content-md-center m-top-10">
+<div class="row justify-content-md-center m-top-10" ng-init="vm.init()">
     <div title="Jogador Principal">
         <h2>Bem-vindo(a), {{vm.jogador.nickname}}</h2>
     </div>
     <div>
         <div class="jumbotron">
-            <hr/>
             <div ng-if="vm.telaVsJogador">
-                    <div class="col-sm-12 text-center">
-                            <h3>BATALHA VS JOGADOR</h3>
-                        </div>
+                <div class="col-sm-12 text-center">
+                    <h3>Batalhe contra um jogador cadastrado!</h3>
+                </div>
                 <form ng-submit="vm.batalharVsJogador(vm.jogador2)">
                     <div class="form-group">
                         <label>Oponente</label>
-                        <!--
-                            <input type="texto" class="form-control" placeholder="SuperFulano012" 
-                        ng-required="true" ng-model="vm.jogador2.nickname" /> -->
-                        <select name="oponente" id="oponente" class="form-control" ng-options="oponente as oponente.nome for oponente in vm.jogadores" ng-model="jogadorCtrl.jogador.personagem"></select>
+                        <select name="oponente" id="oponente" class="form-control" ng-options="oponente as oponente.nickname for oponente in vm.jogadores" ng-model="vm.jogador2"></select>
                     </div>
-                    <div class="form-group"
-                    ng-controller="HeroiController as heroiCtrl" ng-init="vm.init()"
-                    >
-                        <label>Heroi</label>
-                        <select name="heroi" id="heroi" class="form-control"
-                            ng-required="true"
-                            ng-options="heroi as heroi.nome for heroi in vm.herois" ng-model="vm.jogador2.heroi"></select>
-                            <div ng-if="vm.jogador2.heroi">
-                                    <span>Vida:{{vm.user.heroi.vida}}</span><br>
-                                    <span>Ataque:{{vm.user.heroi.ataque}}</span><br>
-                                    <span>Forca:{{vm.user.heroi.forca}}</span><br>
-                                    <span>Inteligencia:{{vm.user.heroi.inteligencia}}</span><br>
-                                    <span>Defesa:{{vm.user.heroi.defesa}}</span><br>
-                                    <span>Velocidade:{{vm.user.heroi.velocidade}}</span><br>
-                                    <span>Poder:{{vm.user.heroi.poder}}</span><br>
-                                </div>
+                    <div class="form-group">
+                        <p>Heroi do oponente</p>
+                        <div ng-if="vm.jogador2.personagem">
+                            <span>Vida: {{vm.jogador2.personagem.vida}}</span><br>
+                            <span>Ataque: {{vm.jogador2.personagem.ataque}}</span><br>
+                            <span>Forca: {{vm.jogador2.personagem.forca}}</span><br>
+                            <span>Inteligencia:{{vm.jogador2.personagem.inteligencia}}</span><br>
+                            <span>Defesa: {{vm.jogador2.personagem.defesa}}</span><br>
+                            <span>Velocidade:{{vm.jogador2.personagem.velocidade}}</span><br>
+                            <span>Poder: {{vm.jogador2.personagem.poder}}</span><br>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Jogar</button>
+                    <button type="submit" class="btn btn-success">Batalhar!</button>
+                    <button class="btn btn-primary" ng-click="vm.irTelaVsComputador()">Batalhar contra a máquina</button>
                 </form>
-                <button class="btn btn-primary" ng-click="vm.irTelaVsComputador()">Batalhar Vs Computador</button>
             </div>
             <div ng-if="vm.telaVsComputador">
                 <form>

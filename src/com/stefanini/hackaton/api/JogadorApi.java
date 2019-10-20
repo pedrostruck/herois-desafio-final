@@ -35,7 +35,6 @@ public class JogadorApi {
 	@POST
 	@Path("/login")
 	public Response login(LoginDTO loginDto) throws NegocioException {
-		System.out.println("Dentro de login.");
 		JogadorDTO dto = jogadorService.efetuarLogin(loginDto);
 		return Response.ok(dto).build();
 	}
