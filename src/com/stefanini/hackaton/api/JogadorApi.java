@@ -9,8 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.stefanini.hackaton.dto.LoginDto;
-import com.stefanini.hackaton.entities.Jogador;
+import com.stefanini.hackaton.dto.JogadorDTO;
+import com.stefanini.hackaton.dto.LoginDTO;
 import com.stefanini.hackaton.rest.exceptions.NegocioException;
 import com.stefanini.hackaton.service.JogadorService;
 
@@ -24,33 +24,20 @@ public class JogadorApi {
 
 	@POST
 	@Path("/cadastrar")
-	public Response cadastrarJogador(Jogador jogador) throws NegocioException {
-		if (jogadorService.isIncomplete(jogador)) {
-			throw new NegocioException(
-							"Existem campos vazios! Preencha o formulário de jogador por completo!");
+	public Response cadastrarJogador(JogadorDTO jogadorDto)
+					throws NegocioException {
+		if (jogadorService.isValidRegister(jogadorDto)) {
+			jogadorService.createJogador(jogadorDto);
 		}
-
-		if (jogadorService.isDuplicateNickname(jogador.getNickname())) {
-			throw new NegocioException(
-							"Já existe jogador com este nickname! Escolha outro.");
-		}
-
-		if (jogadorService.isInvalidPassword(jogador.getSenha())) {
-			throw new NegocioException(
-							"Senha com tamanho inválido! A senha deve ter no mínimo 6 e no máximo 8 caracteres.");
-		}
-		jogadorService.createJogador(jogador);
 		return Response.ok().build();
 	}
 
 	@POST
 	@Path("/login")
-	public Response login(LoginDto loginDto) throws NegocioException {
+	public Response login(LoginDTO loginDto) throws NegocioException {
 		System.out.println("Dentro de login.");
-		if (jogadorService.efetuarLogin(loginDto)) {
-			// TODO redirecionamento de p�ginas e lan�amento de exce��o
-		}
-		return Response.ok().build();
+		JogadorDTO dto = jogadorService.efetuarLogin(loginDto);
+		return Response.ok(dto).build();
 	}
 
 	@GET

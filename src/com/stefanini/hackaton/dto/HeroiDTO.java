@@ -2,7 +2,7 @@ package com.stefanini.hackaton.dto;
 
 import java.io.Serializable;
 
-public class HeroiDto implements Serializable {
+public class HeroiDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

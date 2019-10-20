@@ -1,30 +1,30 @@
+<!-- HeroiController as vm -->
 <div class="jumbotron" ng-init="vm.init()">
 	<h3>{{vm.app}} - Cadastro</h3>
 	{{vm.message}}
 	<hr />
 	<div>
-		<form ng-controller="jogadorCtrl as jogCtrl" ng-submit="jogCtrl.cadastrar(jogCtrl.jogador)">
+		<form ng-controller="JogadorController as jogadorCtrl" ng-submit="jogadorCtrl.cadastrar(jogadorCtrl.jogador)">
 			<div class="form-group">
 				<label>Nickname</label>
-				<input type="texto" ng-required="true" class="form-control" placeholder="ex: alice123" ng-model="jogCtrl.jogador.nickname" />
+				<input type="texto" ng-required="true" class="form-control" placeholder="ex: alice123" ng-model="jogadorCtrl.jogador.nickname" />
 			</div>
 			<div class="form-group">
 				<label>Senha</label>
-				<input type="password" ng-required="true" class="form-control"   ng-model="jogCtrl.jogador.senha" ng-minlength="6"
-				ng-maxlenght="8" />
+				<input type="password" ng-required="true" class="form-control"   ng-model="jogadorCtrl.jogador.senha" pattern=".{6,8}" title="A senha deve ter de 6 a 8 caracteres." />
 			</div>
 			<div class="form-group">
 				<label>Herói</label>
 				<select name="heroi" id="heroi" class="form-control" ng-required="true"
-					ng-options="heroi as heroi.nome for heroi in vm.herois" ng-model="jogCtrl.jogador.heroi"></select>
-				<div ng-if="jogCtrl.jogador.heroi">
-					<span>Vida: {{jogCtrl.jogador.heroi.vida}}</span><br>
-					<span>Ataque: {{jogCtrl.jogador.heroi.ataque}}</span><br>
-					<span>Forca: {{jogCtrl.jogador.heroi.forca}}</span><br>
-					<span>Inteligencia: {{jogCtrl.jogador.heroi.inteligencia}}</span><br>
-					<span>Defesa: {{jogCtrl.jogador.heroi.defesa}}</span><br>
-					<span>Velocidade: {{jogCtrl.jogador.heroi.velocidade}}</span><br>
-					<span>Poder: {{jogCtrl.jogador.heroi.poder}}</span><br>
+					ng-options="heroi as heroi.nome for heroi in vm.herois" ng-model="jogadorCtrl.jogador.personagem"></select>
+				<div ng-if="jogadorCtrl.jogador.personagem">
+					<span>Vida: {{jogadorCtrl.jogador.personagem.vida}}</span><br>
+					<span>Ataque: {{jogadorCtrl.jogador.personagem.ataque}}</span><br>
+					<span>Forca: {{jogadorCtrl.jogador.personagem.forca}}</span><br>
+					<span>Inteligencia: {{jogadorCtrl.jogador.personagem.inteligencia}}</span><br>
+					<span>Defesa: {{jogadorCtrl.jogador.personagem.defesa}}</span><br>
+					<span>Velocidade: {{jogadorCtrl.jogador.personagem.velocidade}}</span><br>
+					<span>Poder: {{jogadorCtrl.jogador.personagem.poder}}</span><br>
 				</div>
 			</div>
 			<button type="submit" class="btn btn-success">Cadastrar</button>

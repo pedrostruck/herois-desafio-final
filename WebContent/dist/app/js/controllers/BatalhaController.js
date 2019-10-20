@@ -1,28 +1,37 @@
-moduleApp.controller("batalhaCtrl", batalhaCtrl);
+moduleApp.controller("BatalhaController", BatalhaController);
 
-batalhaCtrl.$Inject = ["$scope", "$location", "batalhaService","jogadorService"];
+BatalhaController.$Inject = ["$scope", "$location", "batalhaService","jogadorService"];
 
 
-function batalhaCtrl($scope, batalhaService,$location,jogadorService) {
+function BatalhaController($scope, $location, batalhaService, jogadorService) {
 	const vm = this;
 
 	vm.telaVsJogador = true;
+
+	vm.jogadores = [];
 
 	vm.jogador = jogadorService.jogador;
 	
 	vm.jogador2 = {
 		nickname: null,
-		heroi: {}
+		personagem: {}
 	};
 
 	vm.vencedor = {
 		nickname: null,
-		heroi: {}
+		personagem: {}
 	};
 
-
-	vm.batalharVsJogador = function (jogador,jogador2) {
-		batalhaService.batalharVsJogador(jogador,jogador2).success(function (data) {
+	vm.carregarJogadoresOponentes = function () {
+		vm.service.getHerois().success(function (data) {
+			vm.jogadores = data;
+		}).error(function (data, status) {
+			vm.message = "Aconteceu um problema: " + data;
+		});
+	};
+	
+	vm.batalharVsJogador = function (jogador, jogador2) {
+		batalhaService.batalharVsJogador(jogador, jogador2).success(function (data) {
 			vm.vencedor = data;
 		}).error(function (data, status) {
 			vm.message = "Aconteceu um problema: " + data;
@@ -47,7 +56,5 @@ function batalhaCtrl($scope, batalhaService,$location,jogadorService) {
 		vm.telaVsJogador = true;
 		vm.telaVsComputador = false;
 	}
-
-	
 
 }

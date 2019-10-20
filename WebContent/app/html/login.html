@@ -1,15 +1,17 @@
+<!-- JogadorController as vm -->
 <div class="jumbotron">
-	<h3>Login</h3>
+	<h2 class="comicfont">Batalha de Heróis</h2>
+	<h3 class="comicfont">Login</h3>
 	<hr />
 	<div>
-		<form ng-submit="vm.login(vm.jogador)">
+		<form ng-submit="vm.login(vm.dadosLogin)">
 			<div class="form-group">
 				<label>Nickname</label>
-				<input type="texto" class="form-control" ng-model="vm.jogador.nickname" />
+				<input type="texto" class="form-control" ng-model="vm.dadosLogin.nickname" />
 			</div>
 			<div class="form-group">
 				<label>Senha</label>
-				<input type="password" class="form-control" ng-model="vm.jogador.senha" minlength="6" maxlength="8" />
+				<input type="password" class="form-control" ng-model="vm.dadosLogin.senha" minlength="6" maxlength="8" />
 			</div>
 			<button class="btn btn-success" type="submit">Entrar</button>
 			<button class="btn btn-primary" ng-click="vm.irTela('/cadastrar')">Cadastrar</button>

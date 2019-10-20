@@ -1,13 +1,13 @@
 package com.stefanini.hackaton.parsers;
 
-import com.stefanini.hackaton.dto.HeroiDto;
+import com.stefanini.hackaton.dto.HeroiDTO;
 import com.stefanini.hackaton.entities.Heroi;
 
-public class HeroiParserDTO extends AbstractParser<HeroiDto, Heroi> {
+public class HeroiParser extends AbstractParser<HeroiDTO, Heroi> {
 
 	@Override
-	public HeroiDto toDTO(Heroi entity) {
-		HeroiDto dto = new HeroiDto();
+	public HeroiDTO toDTO(Heroi entity) {
+		HeroiDTO dto = new HeroiDTO();
 		dto.setAtaque(entity.getAtaque());
 		dto.setDefesa(entity.getDefesa());
 		dto.setForca(entity.getForca());
@@ -21,7 +21,7 @@ public class HeroiParserDTO extends AbstractParser<HeroiDto, Heroi> {
 	}
 
 	@Override
-	public Heroi toEntity(HeroiDto dto) {
+	public Heroi toEntity(HeroiDTO dto) {
 		Heroi entity = new Heroi();
 		entity.setAtaque(dto.getAtaque());
 		entity.setDefesa(dto.getDefesa());

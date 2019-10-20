@@ -1,9 +1,9 @@
-moduleApp.controller("heroiCtrl", heroiCtrl);
+moduleApp.controller("HeroiController", HeroiController);
 
-heroiCtrl.$Inject = ["$scope", "$location", "heroisService"];
+HeroiController.$Inject = ["$scope", "$location", "heroisService"];
 
 
-function heroiCtrl($scope, heroisService, $location) {
+function HeroiController($scope, heroisService, $location) {
 	const vm = this;
 	vm.app = "Batalha de Heróis";
 	vm.service = heroisService;
@@ -16,14 +16,14 @@ function heroiCtrl($scope, heroisService, $location) {
 
 	vm.carregarHerois = function () {
 		vm.service.getHerois().success(function (data) {
-			console.log(data);
 			vm.herois = data;
 		}).error(function (data, status) {
 			vm.message = "Aconteceu um problema: " + data;
 		});
 	};
 
-	vm.irCadastrar = function () {
+	vm.irCadastrar = function (heroiCadastrado) {
+		console.log(heroiCadastrado);
 		vm.cadastrar = true;
 		vm.login = false;
 	}

@@ -6,56 +6,70 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-import com.stefanini.hackaton.dto.JogadorDto;
-import com.stefanini.hackaton.dto.LoginDto;
-import com.stefanini.hackaton.entities.Jogador;
-import com.stefanini.hackaton.parsers.JogadorParserDTO;
+import com.stefanini.hackaton.dto.JogadorDTO;
+import com.stefanini.hackaton.dto.LoginDTO;
+import com.stefanini.hackaton.parsers.JogadorParser;
 import com.stefanini.hackaton.persistence.JogadorDAO;
 import com.stefanini.hackaton.rest.exceptions.NegocioException;
-
-//TODO adicionar tags Transactional nos métodos
 
 public class JogadorService {
 
 	@Inject
-	private JogadorParserDTO parser;
+	private JogadorParser parser;
 
 	@Inject
 	private JogadorDAO dao;
 
-	public List<JogadorDto> listar() {
+	@Transactional
+	public void createJogador(JogadorDTO jogadorDto) {
+		dao.insert(parser.toEntity(jogadorDto));
+	}
+
+	public List<JogadorDTO> listar() {
 		return parser.toDTO(dao.list());
 	}
 
-	public boolean efetuarLogin(LoginDto loginDto) throws NegocioException {
-		Jogador jogador = dao.findById(loginDto.getNickname());
-		if (jogador != null) {
-			byte[] decodedPasswordBytes = Base64.getDecoder()
-							.decode(loginDto.getSenha());
-			String decodedPassword = new String(decodedPasswordBytes);
-//			String encoded = Base64.getEncoder()
-//							.encodeToString(original.getBytes());
-			if (jogador.getSenha() == decodedPassword) {
-				// TODO logar jogador e redirecionar pra home
-				return true;
+	public JogadorDTO getJogadorByNickname(String nickname) {
+		return parser.toDTO(dao.findById(nickname));
+	}
+
+	public JogadorDTO efetuarLogin(LoginDTO loginDto) throws NegocioException {
+		LoginDTO loginDtoFetched = parser
+						.toLoginDto(dao.findById(loginDto.getNickname()));
+		if (loginDtoFetched != null) {
+			if (loginDtoFetched.getSenha().equals(loginDto.getSenha())) {
+				JogadorDTO dto = parser
+								.toDTO(dao.findById(loginDto.getNickname()));
+				dto.setSenha(null);
+				return dto;
 			}
 		}
 		throw new NegocioException(
 						"Ops! Seu nickname ou senha estão incorretos!");
 	}
 
-	public Jogador getJogadorByNickname(String nickname) {
-		return dao.findById(nickname);
+	public boolean isValidRegister(JogadorDTO jogadorDto)
+					throws NegocioException {
+		if (isIncomplete(jogadorDto)) {
+			throw new NegocioException(
+							"Existem campos vazios! Preencha o formulário de jogador por completo!");
+		}
+
+		if (isDuplicateNickname(jogadorDto.getNickname())) {
+			throw new NegocioException(
+							"Já existe jogador com este nickname! Escolha outro.");
+		}
+
+		if (isPasswordOutOfSizeRange(jogadorDto.getSenha())) {
+			throw new NegocioException(
+							"Senha com tamanho inválido! A senha deve ter no mínimo 6 e no máximo 8 caracteres.");
+		}
+		return true;
 	}
 
-	@Transactional
-	public void createJogador(Jogador jogador) {
-		dao.insert(jogador);
-	}
-
-	public boolean isIncomplete(Jogador jogador) {
-		if (jogador.getNickname() == null || jogador.getSenha() == null
-						|| jogador.getHeroi() == null) {
+	public boolean isIncomplete(JogadorDTO jogadorDto) {
+		if (jogadorDto.getNickname() == null || jogadorDto.getSenha() == null
+						|| jogadorDto.getPersonagem() == null) {
 			return true;
 		}
 		return false;
@@ -68,11 +82,17 @@ public class JogadorService {
 		return false;
 	}
 
-	public boolean isInvalidPassword(String senha) {
-		if (senha.length() >= 6 && senha.length() <= 8) {
+	public boolean isPasswordOutOfSizeRange(String encodedPassword) {
+		String decodedPassword = decodePassword(encodedPassword);
+		if (decodedPassword.length() >= 6 && decodedPassword.length() <= 8) {
 			return false;
 		}
 		return true;
+	}
+
+	private String decodePassword(String senha) {
+		byte[] decodedPasswordBytes = Base64.getDecoder().decode(senha);
+		return new String(decodedPasswordBytes);
 	}
 
 }

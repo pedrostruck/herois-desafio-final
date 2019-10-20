@@ -1,31 +1,15 @@
-package com.stefanini.hackaton.entities;
+package com.stefanini.hackaton.dto;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import com.stefanini.hackaton.entities.Heroi;
 
-@Entity
-@Table(name = "jogador")
-@NamedQueries({ @NamedQuery(
-	name = "Jogador.getAll",
-	query = "SELECT j FROM Jogador j") })
-public class Jogador implements Serializable {
+public class JogadorDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
 	private String nickname;
-
 	private String senha;
-
-	@OneToOne
-	@JoinColumn(name = "idHeroi")
 	private Heroi personagem;
 
 	public String getNickname() {
@@ -35,7 +19,7 @@ public class Jogador implements Serializable {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-
+	
 	public String getSenha() {
 		return senha;
 	}

@@ -1,19 +1,19 @@
-moduleApp.controller("jogadorCtrl", jogadorCtrl);
+moduleApp.controller("JogadorController", JogadorController);
 
-jogadorCtrl.$Inject = ["$scope", "$location", "jogadorService"];
+JogadorController.$Inject = ["$scope", "$location", "jogadorService"];
 
-function jogadorCtrl($scope, $location, jogadorService) {
+function JogadorController($scope, $location, jogadorService) {
     const self = this;
 
     self.jogador = {
         nickname: null,
         senha: null,
-        heroi: {}
+        personagem: {}
     };
 
-    self.login = function (jogador) {
-        jogador.senha = btoa(jogador.senha);
-        jogadorService.login(jogador)
+    self.login = function (dadosLogin) {
+        dadosLogin.senha = btoa(dadosLogin.senha);
+        jogadorService.login(dadosLogin)
             .then(function (response) {
                 jogadorService.jogador = response.data;
                 alert("Logado com Sucesso");
