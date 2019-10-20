@@ -1,22 +1,25 @@
+<!-- BatalhaController as vm -->
 <div class="row justify-content-md-center m-top-10">
     <div title="Jogador Principal">
-        <h2> {{vm.jogador.nickname}} </h2>
+        <h2>Bem-vindo(a), {{vm.jogador.nickname}}</h2>
     </div>
     <div>
         <div class="jumbotron">
-            <hr />
+            <hr/>
             <div ng-if="vm.telaVsJogador">
                     <div class="col-sm-12 text-center">
                             <h3>BATALHA VS JOGADOR</h3>
                         </div>
                 <form ng-submit="vm.batalharVsJogador(vm.jogador2)">
                     <div class="form-group">
-                        <label>Jogador 2</label>
-                        <input type="texto" class="form-control" placeholder="SuperFulano012" 
-                        ng-required="true" ng-model="vm.jogador2.nickname">
+                        <label>Oponente</label>
+                        <!--
+                            <input type="texto" class="form-control" placeholder="SuperFulano012" 
+                        ng-required="true" ng-model="vm.jogador2.nickname" /> -->
+                        <select name="oponente" id="oponente" class="form-control" ng-options="oponente as oponente.nome for oponente in vm.jogadores" ng-model="jogadorCtrl.jogador.personagem"></select>
                     </div>
                     <div class="form-group"
-                    ng-controller="heroiCtrl as vm" ng-init="vm.init()"
+                    ng-controller="HeroiController as heroiCtrl" ng-init="vm.init()"
                     >
                         <label>Heroi</label>
                         <select name="heroi" id="heroi" class="form-control"
