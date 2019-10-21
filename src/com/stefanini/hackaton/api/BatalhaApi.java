@@ -33,7 +33,7 @@ public class BatalhaApi {
 
 	@POST
 	@Path("/batalhar/{nickJogador}/{nickOponente}")
-	public Response batalharContraJogador(
+	public Response batalhar(
 					@PathParam("nickJogador") String nickJogador,
 					@PathParam("nickOponente") String nickOponente) {
 		if (nickOponente.equals("null")) {

@@ -1,10 +1,26 @@
-<!-- BatalhaController as vm -->
-<div class="row justify-content-md-center m-top-10" ng-init="vm.init()">
-    <div title="Jogador Principal">
-        <h2>Bem-vindo(a), {{vm.jogador.nickname}}</h2>
-    </div>
-    <div>
-        <div class="jumbotron">
+<div ng-init="vm.init()">
+    <div class="row">
+        <!-- 1ª COLUNA -->
+        <div class="column jumbotron">
+            <div title="Jogador Principal">
+                <h2>Bem-vindo(a), {{vm.jogador.nickname}}</h2>
+                <div class="form-group">
+                    <p class="negrito">Atributos do seu herói</p>
+                    <div ng-if="vm.jogador.personagem">
+                        <span>Nome: {{vm.jogador.personagem.nome}}</span><br>
+                        <span>Vida: {{vm.jogador.personagem.vida}}</span><br>
+                        <span>Ataque: {{vm.jogador.personagem.ataque}}</span><br>
+                        <span>Defesa: {{vm.jogador.personagem.defesa}}</span><br>
+                        <span>Inteligência: {{vm.jogador.personagem.inteligencia}}</span><br>
+                        <span>Poder: {{vm.jogador.personagem.poder}}</span><br>
+                        <span>Velocidade: {{vm.jogador.personagem.velocidade}}</span><br>
+                        <span>Força: {{vm.jogador.personagem.forca}}</span><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 2ª COLUNA -->
+        <div class="column jumbotron">
             <div ng-if="vm.telaVsJogador">
                 <div class="col-sm-12 text-center">
                     <h3>Batalhe contra um jogador cadastrado!</h3>
@@ -29,40 +45,33 @@
                     </div>
                     <button type="submit" class="btn btn-success">Batalhar!</button>
                     <button class="btn btn-primary" ng-click="vm.irTelaVsComputador()">Batalhar contra a máquina</button>
-                    <table ng-if="vm.acabouBatalha" class="table table-condensed table-stripped table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="negrito">Log da Batalha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="msg in vm.log track by $index">
-                                <td>{{msg}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </form>
             </div>
             <div ng-if="vm.telaVsComputador">
+                <div title="maquina">
+                    <h5>Clique em 'Iniciar Batalha' para batalhar contra um herói aleatório!</h5>
+                </div>
                 <!-- Lógica: Se null é enviado como o nickname do oponente, a batalha é contra a Máquina -->
                 <form ng-submit="vm.batalhar(vm.jogador.nickname, null)">
                     <button type="submit" class="btn btn-success">Iniciar Batalha!</button>
                     <button class="btn btn-primary" ng-click="vm.irTelaVsJogador()">Voltar</button>
-                    <table ng-if="vm.acabouBatalha" class="table table-condensed table-stripped table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="negrito">Log da Batalha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="msg in vm.log track by $index">
-                                <td>{{msg}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </form>
             </div>
         </div>
-    </div>
+        <!-- 3ª COLUNA -->
+        <div class="column jumbotron">
+            <table ng-if="vm.acabouBatalha" class="table table-condensed table-stripped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="negrito">Log da Batalha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="msg in vm.log track by $index">
+                            <td>{{msg}}</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
     </div>
 </div>

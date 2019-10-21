@@ -38,6 +38,7 @@ public class BatalhaService {
 		Heroi heroJog = jogLogado.getPersonagem();
 		Heroi heroOp = jogOponente.getPersonagem();
 
+		battleLog.add(heroJog.getNome() + " VS " + heroOp.getNome());
 		if (isDraw(heroJog, heroOp)) {
 			battleLog.add("EMPATE!");
 		} else {

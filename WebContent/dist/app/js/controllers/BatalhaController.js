@@ -57,4 +57,8 @@ function BatalhaController($scope, $location, batalhaService, jogadorService) {
 		vm.telaVsJogador = true;
 		vm.telaVsComputador = false;
 	};
+
+	vm.irLogin = function () {
+		$location.path("/")
+	}
 }
